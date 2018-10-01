@@ -1,4 +1,6 @@
 public class DeadLock {
+	private boolean joy;
+
 	static class Friend {
 		private final String name;
 
@@ -36,4 +38,20 @@ public class DeadLock {
 			}
 		});
 	}
+
+	public synchronized void guardedJoy() {
+		while (!joy) {
+			try {
+				wait();
+			} catch (InterruptedException e) {
+			}
+		}
+		System.out.println("Joy and efficiency have been achieved!");
+	}
+
+	public synchronized void notifyJoy() {
+		joy = true;
+		notifyAll();
+	}
+	
 }
